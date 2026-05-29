@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recipe Master | 로그인</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 로그인 페이지 전용 배경 및 레이아웃 정의 */
+        body#auth-page {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Pretendard', sans-serif;
+        }
+        .auth-container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e7e5e4;
+        }
+        .auth-logo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ea580c;
+            margin-bottom: 30px;
+        }
+        .auth-logo i {
+            margin-right: 8px;
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f5f5f4;
+            padding-bottom: 10px;
+        }
+        .auth-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #a8a29e;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .auth-tab.active {
+            color: #ea580c;
+            border-bottom: 3px solid #ea580c;
+            margin-bottom: -13px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #44403c;
+            margin-bottom: 6px;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: #a8a29e;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            border: 1px solid #d6d3d1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .input-wrapper input:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+        .btn-auth-submit {
+            width: 100%;
+            background: #ea580c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+        .btn-auth-submit:hover {
+            background: #c2410c;
+        }
+    </style>
+</head>
+<body id="auth-page">
+
+    <div class="auth-container">
+        <div class="auth-logo">
+            <i class="fas fa-utensils"></i> AI Recipe Master
+        </div>
+
+        <div class="auth-tabs">
+            <button id="tab-login" class="auth-tab active" onclick="switchTab('login')">로그인</button>
+            <button id="tab-register" class="auth-tab" onclick="switchTab('register')">회원가입</button>
+        </div>
+
+        <div id="login-section">
+            <div class="form-group">
+                <label for="loginId">이메일 주소</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="loginId" placeholder="example@email.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loginPw">비밀번호</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" onkeypress="if(event.keyCode==13) doLogin()">
+                </div>
+            </div>
+            <button class="btn-auth-submit" onclick="doLogin()">로그인하기</button>
+        </div>
+
+        <div id="register-section" style="display: none;">
+            <div class="form-group">
+                <label for="regEmail">이메일 주소</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="regEmail" placeholder="example@email.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="regPw">비밀번호</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="regPw" placeholder="영문, 숫자 포함 6자리 이상">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="regPwConfirm">비밀번호 확인</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-check-double"></i>
+                    <input type="password" id="regPwConfirm" placeholder="비밀번호를 한 번 더 입력하세요" onkeypress="if(event.keyCode==13) doSignup()">
+                </div>
+            </div>
+            <button class="btn-auth-submit" onclick="doSignup()">가입 완료하기</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // 파이어베이스 인증 정보 설정 및 초기화
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEXaaN4-iqvyMtYGuwDSH6veisYXYJqR4",
+            authDomain: "capstonedesign-45ec4.firebaseapp.com",
+            projectId: "capstonedesign-45ec4",
+            storageBucket: "capstonedesign-45ec4.firebasestorage.app",
+            messagingSenderId: "746369744864",
+            appId: "1:746369744864:web:bcbd5626d82e148559f585"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    </script>
+
+    <script src="script.js"></script>
+
+    <script>
+        // 로그인 <-> 회원가입 탭 전환 스크립트
+        function switchTab(type) {
+            const loginTab = document.getElementById('tab-login');
+            const regTab = document.getElementById('tab-register');
+            const loginSec = document.getElementById('login-section');
+            const regSec = document.getElementById('register-section');
+
+            if (type === 'login') {
+                loginTab.classList.add('active');
+                regTab.classList.remove('active');
+                loginSec.style.display = 'block';
+                regSec.style.display = 'none';
+            } else {
+                regTab.classList.add('active');
+                loginTab.classList.remove('active');
+                loginSec.style.display = 'none';
+                regSec.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
