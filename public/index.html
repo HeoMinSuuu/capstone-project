@@ -89,10 +89,34 @@
             outline: none;
             font-size: 0.95rem;
             transition: 0.2s;
+            box-sizing: border-box;
         }
         .input-wrapper input:focus {
             border-color: #ea580c;
             box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+        /* 생년월일 input 스타일 보완 (아이콘 간격 확보) */
+        .input-wrapper input[type="date"] {
+            padding-left: 40px;
+        }
+        /* 개인정보 제공 동의 체크박스 영역 스타일 */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            font-size: 0.85rem;
+            color: #57534e;
+            cursor: pointer;
         }
         .btn-auth-submit {
             width: 100%;
@@ -143,6 +167,42 @@
         </div>
 
         <div id="register-section" style="display: none;">
+            <!-- 기존 닉네임 -->
+            <div class="form-group">
+                <label for="regNickname">닉네임</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="regNickname" placeholder="사용할 닉네임을 입력하세요">
+                </div>
+            </div>
+
+            <!-- [추가] 아이디 -->
+            <div class="form-group">
+                <label for="regUserId">아이디</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-id-badge"></i>
+                    <input type="text" id="regUserId" placeholder="사용할 아이디를 입력하세요">
+                </div>
+            </div>
+
+            <!-- [추가] 이름 -->
+            <div class="form-group">
+                <label for="regName">이름</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-signature"></i>
+                    <input type="text" id="regName" placeholder="실명을 입력하세요">
+                </div>
+            </div>
+
+            <!-- [추가] 생년월일 -->
+            <div class="form-group">
+                <label for="regBirthdate">생년월일</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="date" id="regBirthdate">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="regEmail">이메일 주소</label>
                 <div class="input-wrapper">
@@ -161,9 +221,16 @@
                 <label for="regPwConfirm">비밀번호 확인</label>
                 <div class="input-wrapper">
                     <i class="fas fa-check-double"></i>
-                    <input type="password" id="regPwConfirm" placeholder="비밀번호를 한 번 더 입력하세요" onkeypress="if(event.keyCode==13) doSignup()">
+                    <input type="password" id="regPwConfirm" placeholder="비밀번호를 한 번 더 입력하세요">
                 </div>
             </div>
+
+            <!-- [추가] 개인정보 제공 동의 체크박스 -->
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="regPrivacyConsent" required>
+                <label for="regPrivacyConsent">[필수] 개인정보 수집 및 이용에 동의합니다.</label>
+            </div>
+
             <button class="btn-auth-submit" onclick="doSignup()">가입 완료하기</button>
         </div>
     </div>
@@ -184,6 +251,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const db = firebase.firestore(); // 연동용 db 객체 생성
     </script>
 
     <script src="script.js"></script>
